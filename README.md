@@ -1,32 +1,104 @@
-# Financial Conversational Bot: Llama 3.1 Fine-Tuning Pipeline
+<div align="center">
 
-This repository contains an end-to-end pipeline for building a finance-focused conversational AI. The project involves scraping real-time financial news from Indian markets, generating a synthetic instruction-tuning dataset, and fine-tuning a Llama 3.1 8B model using QLoRA.
+# 💹 Financial Conversational Bot  
+## Llama 3.1 Fine-Tuning Pipeline (QLoRA)
 
-## Pipeline Components
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![LLM](https://img.shields.io/badge/LLM-Llama%203.1%208B%20Instruct-purple.svg)]()
+[![Fine-Tuning](https://img.shields.io/badge/Fine--Tuning-QLoRA%20%7C%20LoRA-green.svg)]()
+[![Web Scraping](https://img.shields.io/badge/Web%20Scraping-Selenium%20%7C%20BeautifulSoup-orange.svg)]()
 
-### 1. Data Scraping & Extraction
-Located in the initial notebooks, this stage uses **Selenium** and **BeautifulSoup** to extract clean text data from:
-* **The Economic Times:** Corporate trends, policy news, and stock updates.
-* **Moneycontrol:** Company-specific news and market analysis.
-* *Technical Note:* Implemented multi-processing to handle high-volume scraping and utilized Selenium's `eager` page load strategy to navigate dynamic "Load More" elements efficiently.
+🔗 **GitHub Repo:** https://github.com/sumits234/Fine-tuning-a-LLM-to-Create-a-Finance-Domain-chatbot
 
-### 2. Synthetic QA Generation
-Since raw news articles are not in a conversational format, I built a synthetic data pipeline:
-* **Question Generation:** Uses `mrm8488/t5-base-finetuned-question-generation-ap` to turn news summaries into relevant questions.
-* **Answer Validation:** Uses `distilbert-base-uncased-distilled-squad` to extract precise answers from the context.
-* **Formatting:** The resulting pairs are formatted into the Llama 3.1 Chat Template (JSON).
+</div>
 
-### 3. Model Fine-Tuning (QLoRA)
-The core of the project is the fine-tuning of **Llama-3.1-8B-Instruct**. 
-* **Quantization:** 4-bit (NF4) to minimize VRAM usage.
-* **PEFT Technique:** LoRA (Rank 64, Alpha 16) targeting all linear modules (q, k, v, o, gate, up, down projects).
-* **Optimization:** Paged AdamW 32-bit with a constant learning rate scheduler.
+---
 
-## Performance & Results
-After training for 3 epochs on the custom financial dataset:
-* **Validation Loss:** 1.57
-* **BERTScore (F1):** 0.85
-* The model demonstrates a strong ability to recall specific financial facts and recommendations (e.g., brokerage ratings on stocks like Avanti Feeds) that were present in the scraped context.
+## 🚀 Project Overview
+This repository contains an **end-to-end pipeline** for building a **finance-focused conversational AI**.  
+The system scrapes real-time market news (India), generates a synthetic instruction-tuning dataset, and fine-tunes a **Llama 3.1 8B Instruct** model using **QLoRA**.
+
+✅ End Goal: a chatbot that can answer finance questions **contextually** using scraped market information.
+
+---
+
+## 🧠 Pipeline Components
+
+### 1) Data Scraping & Extraction
+This stage extracts clean finance text from Indian market news sources using **Selenium** and **BeautifulSoup**:
+
+- **The Economic Times** → corporate trends, policy news, stock updates  
+- **Moneycontrol** → company-specific news, market analysis  
+
+**Technical Highlights**
+- Implemented **multi-processing scraping** to handle high-volume pages
+- Used Selenium **`eager` page load strategy**
+- Automated dynamic navigation such as **"Load More"** interactions
+
+---
+
+### 2) Synthetic Instruction Dataset Generation (QA)
+Since raw market news is not conversational, the pipeline generates synthetic Q&A pairs:
+
+- **Question Generation (T5):** `mrm8488/t5-base-finetuned-question-generation-ap`
+- **Answer Extraction / Validation (BERT):** `distilbert-base-uncased-distilled-squad`
+- **Formatting:** Converted to **Llama 3.1 Chat Template** (JSON format)
+
+✅ Output: high-quality instruction-tuning samples (question + answer) grounded in scraped context.
+
+---
+
+### 3) Fine-Tuning Llama 3.1 8B (QLoRA)
+Fine-tuned **Llama-3.1-8B-Instruct** with QLoRA to reduce GPU memory requirements.
+
+**Training Setup**
+- **Quantization:** 4-bit NF4
+- **PEFT:** LoRA *(Rank=64, Alpha=16)*
+- **Target modules:** all linear modules  
+  *(q, k, v, o, gate, up, down projections)*
+- **Optimizer:** Paged AdamW 32-bit
+- **LR Scheduler:** constant
+
+---
+
+## 📊 Performance & Results
+After training for **3 epochs** on the finance instruction dataset:
+
+- **Validation Loss:** `1.57`
+- **BERTScore (F1):** `0.85`
+
+✅ The chatbot demonstrates strong ability to recall and answer finance-related questions using scraped context  
+(e.g., brokerage rating / stock recommendations like **Avanti Feeds**).
+
+---
+
+## 🛠️ Tech Stack
+- Python
+- Selenium + BeautifulSoup
+- HuggingFace Transformers
+- PEFT (LoRA/QLoRA)
+- BitsAndBytes (4-bit quantization)
+- PyTorch
+- BERTScore for evaluation
+
+---
+
+## 📌 Repository Contents (Example Structure)
+```bash
+Fine-tuning-a-LLM-to-Create-a-Finance-Domain-chatbot/
+│── notebooks/
+│   ├── 01_scraping.ipynb
+│   ├── 02_cleaning.ipynb
+│   ├── 03_qa_generation.ipynb
+│   ├── 04_finetuning_qLoRA.ipynb
+│── data/
+│   ├── raw/
+│   ├── processed/
+│   ├── llama_chat_dataset.json
+│── models/
+│── requirements.txt
+│── README.md
+
 
 ## Disclaimer
 This project is for educational purposes, and Financial data is scraped for personal use only.
