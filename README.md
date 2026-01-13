@@ -101,4 +101,5 @@ Fine-tuning-a-LLM-to-Create-a-Finance-Domain-chatbot/
 
 
 ## Disclaimer
-This project is for educational purposes, and Financial data is scraped for personal use only.
+This project is for educational purposes only. All financial data is scraped strictly for personal use and research. This repository does not provide financial advice.
+
