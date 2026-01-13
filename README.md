@@ -81,24 +81,6 @@ After training for **3 epochs** on the finance instruction dataset:
 - PyTorch
 - BERTScore for evaluation
 
----
-
-## 📌 Repository Contents (Example Structure)
-```bash
-Fine-tuning-a-LLM-to-Create-a-Finance-Domain-chatbot/
-│── notebooks/
-│   ├── 01_scraping.ipynb
-│   ├── 02_cleaning.ipynb
-│   ├── 03_qa_generation.ipynb
-│   ├── 04_finetuning_qLoRA.ipynb
-│── data/
-│   ├── raw/
-│   ├── processed/
-│   ├── llama_chat_dataset.json
-│── models/
-│── requirements.txt
-│── README.md
-
 
 ## Disclaimer
 This project is for educational purposes only. All financial data is scraped strictly for personal use and research. This repository does not provide financial advice.
